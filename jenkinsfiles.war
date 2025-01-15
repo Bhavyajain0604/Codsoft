@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/Bhavyajain0604/Codsoft.git'
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                echo 'Building the project...'
+                // Compile C++ code (if applicable)
+                sh 'g++ -o output *.cpp'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                // Run the compiled program (adjust as needed)
+                sh './output'
+            }
+        }
+
+        stage('Post-Build Actions') {
+            steps {
+                echo 'Build completed successfully!'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs for details.'
+        }
+    }
+}
